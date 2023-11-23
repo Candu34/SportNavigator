@@ -1,6 +1,5 @@
 package com.example.sportnavigator.Models;
 
-import com.example.sportnavigator.Models.Enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -10,10 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -48,6 +44,9 @@ public class User {
     @Column(name = "password", length = 1000)
     private String password;
 
+    @OneToOne
+    private EncodedUserImage userImage;
+
 //    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
 //    @CollectionTable(name = "user_role",
 //            joinColumns = @JoinColumn(name = "user_id"))
@@ -60,10 +59,14 @@ public class User {
     @Column(name = "date_of_created")
     private LocalDateTime dateOfCreated;
 
+
+
     @PrePersist
     public void init(){
         this.dateOfCreated = LocalDateTime.now();
     }
+
+
 
 
 
