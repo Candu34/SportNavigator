@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -33,11 +34,13 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
+    @ResponseBody
     public User getOne(@PathVariable("id") long id){
         return userService.getUserById(id);
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
     public ResponseEntity<HttpStatus> save(@RequestBody @Valid UserDTO userDTO,
                                            BindingResult bindingResult){
         if(bindingResult.hasErrors()){
@@ -58,6 +61,9 @@ public class UserController {
         userService.saveUser(createUser(userDTO));
         return ResponseEntity.ok(HttpStatus.OK);
     }
+
+
+
 
 
     private User createUser(UserDTO userDTO){
