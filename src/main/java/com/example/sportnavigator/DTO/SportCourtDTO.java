@@ -17,7 +17,7 @@ public class SportCourtDTO {
 
     private String description;
 
-    private List<Image> images;
+    private String courtType;
 
 
 

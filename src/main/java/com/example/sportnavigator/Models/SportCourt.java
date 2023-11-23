@@ -28,13 +28,13 @@ public class SportCourt {
     @Column(name = "description", columnDefinition = "text")
     private String description;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
-            mappedBy = "court")
-    private List<Image> images = new ArrayList<>();
+//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
+//            mappedBy = "court")
+//    private List<Image> images = new ArrayList<>();
+//
 
-
-    @Column(name = "preview_image_id")
-    private Long previewImageId;
+//    @Column(name = "preview_image_id")
+//    private Long previewImageId;
 
     @Column(name = "date_of_creating")
     private LocalDateTime dateOfCreated;
