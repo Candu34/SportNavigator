@@ -1,6 +1,7 @@
 package com.example.sportnavigator.Models;
 
 
+import com.example.sportnavigator.DTO.EncodedImage;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,9 +29,9 @@ public class SportCourt {
     @Column(name = "description", columnDefinition = "text")
     private String description;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
-            mappedBy = "sportCourt")
-    private List<EncodedImage> images = new ArrayList<>();
+//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
+//            mappedBy = "sportCourt")
+//    private List<EncodedImage> images = new ArrayList<>();
 
     @Column(name = "preview_image_id")
     private Long previewImageId;

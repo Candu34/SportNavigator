@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -26,9 +27,13 @@ public class UserController {
     private final MapStructMapper mapStructMapper;
 
     @GetMapping()
-    public List<User> getAllUsers(){
-        return userService.getAllUsers();
-
+    public List<UserDTO> getAllUsers(){
+        List<User> users = userService.getAllUsers();
+        List<UserDTO> usersDTO = new ArrayList<>();
+        for(User user:users){
+            usersDTO.add(mapStructMapper.userToUserDTO(user));
+        }
+        return usersDTO;
     }
 
     @GetMapping("/{id}")
@@ -56,7 +61,8 @@ public class UserController {
             throw new UserNotCreatedException(errorMsg.toString());
         }
 
-        userService.saveUser(mapStructMapper.UserDTOToUser(userDTO));
+       User user = mapStructMapper.UserDTOToUser(userDTO);
+        userService.saveUser(user);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 

@@ -44,8 +44,10 @@ public class User {
     @Column(name = "password", length = 1000)
     private String password;
 
-    @OneToOne
-    private EncodedUserImage userImage;
+    @OneToOne(mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true, optional = true)
+    private UserImage image;
 
 //    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
 //    @CollectionTable(name = "user_role",
@@ -65,8 +67,6 @@ public class User {
     public void init(){
         this.dateOfCreated = LocalDateTime.now();
     }
-
-
 
 
 

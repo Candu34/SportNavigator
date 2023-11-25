@@ -1,7 +1,5 @@
 package com.example.sportnavigator.DTO;
 
-import com.example.sportnavigator.Models.EncodedImage;
-import com.example.sportnavigator.Models.EncodedUserImage;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -9,8 +7,6 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 
 @AllArgsConstructor
@@ -31,8 +27,9 @@ public class UserDTO {
     @JsonProperty
     private String password;
 
-    @JsonProperty("image")
-    private EncodedUserImage userImage;
+    @JsonProperty
+    EncodedImage image;
+
 
 //    private String role;
 
