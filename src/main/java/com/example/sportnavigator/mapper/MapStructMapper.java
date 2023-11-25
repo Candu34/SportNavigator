@@ -2,16 +2,28 @@ package com.example.sportnavigator.mapper;
 
 
 import com.example.sportnavigator.DTO.EncodedImage;
+import com.example.sportnavigator.DTO.SportCourtDTO;
 import com.example.sportnavigator.DTO.UserDTO;
 import com.example.sportnavigator.Models.CourtImage;
+import com.example.sportnavigator.Models.Enums.CourtType;
+import com.example.sportnavigator.Models.SportCourt;
 import com.example.sportnavigator.Models.User;
 import com.example.sportnavigator.Models.UserImage;
+import com.example.sportnavigator.Service.UserService;
 import com.example.sportnavigator.util.exceptions.UserNotCreatedException;
+import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 @Component
+@RequiredArgsConstructor
 public class MapStructMapper {
+    private final UserService userService;
 
 
     public UserDTO userToUserDTO(User user) {
@@ -29,7 +41,7 @@ public class MapStructMapper {
     }
 
     public User UserDTOToUser(UserDTO userDTO) {
-        if(userDTO == null)
+        if (userDTO == null)
             throw new UserNotCreatedException("Error to create user");
 
         User user = new User();
@@ -41,7 +53,7 @@ public class MapStructMapper {
         return user;
     }
 
-    public UserImage EncodedImageToImage(EncodedImage encodedImage, User user){
+    public UserImage EncodedImageToImage(EncodedImage encodedImage, User user) {
         UserImage image = new UserImage();
 
         byte[] data = Base64.decodeBase64(encodedImage.getData());
@@ -52,15 +64,57 @@ public class MapStructMapper {
         return image;
     }
 
-    public <T> EncodedImage ImageToEncodedImage(T image){
+    public CourtImage EncodedImageToCourtImage(EncodedImage encodedImage, SportCourt sportCourt) {
+        CourtImage image = new CourtImage();
+        byte[] data = Base64.decodeBase64(encodedImage.getData());
+        image.setBytes(data);
+        image.setMime(encodedImage.getMime());
+        image.setSportCourt(sportCourt);
+        return image;
+    }
+
+    public <T> EncodedImage ImageToEncodedImage(T image) {
         EncodedImage encodedImage = new EncodedImage();
-        if(image instanceof UserImage) {
+        if (image instanceof UserImage) {
             encodedImage.setMime(((UserImage) image).getMime());
             encodedImage.setData(Base64.encodeBase64String(((UserImage) image).getBytes()));
-        }else if (image instanceof CourtImage){
+        } else if (image instanceof CourtImage) {
             encodedImage.setMime(((CourtImage) image).getMime());
             encodedImage.setData(Base64.encodeBase64String(((CourtImage) image).getBytes()));
         }
         return encodedImage;
     }
+
+    public SportCourt SportCourtDTOToSportCourt(SportCourtDTO courtDTO) {
+        Set<CourtType> courtType = new HashSet<>();
+
+        courtType.add(CourtType.valueOf(courtDTO.getCourtType())); //TODO exception handler
+        SportCourt court = new SportCourt();
+        court.setName(courtDTO.getName());
+        court.setDescription(courtDTO.getDescription());
+        court.setCourtTypes(courtType);
+        court.setUser(userService.getUserById(courtDTO.getUserID()));
+        List<CourtImage> images = new ArrayList<>();
+        for (EncodedImage image : courtDTO.getImages()) {
+            images.add(EncodedImageToCourtImage(image, court));
+        }
+        court.setImages(images);
+        return court;
+    }
+
+    public SportCourtDTO SportCourtToSportCourtDTO(SportCourt sportCourt){
+        SportCourtDTO courtDTO = new SportCourtDTO();
+        courtDTO.setName(sportCourt.getName());
+        courtDTO.setDescription(sportCourt.getDescription());
+        courtDTO.setCourtType(sportCourt.getCourtTypes().toString());
+        courtDTO.setUserID(sportCourt.getUser().getId());
+        List<EncodedImage> images = new ArrayList<>();
+        for(CourtImage image: sportCourt.getImages()){
+            images.add(ImageToEncodedImage(image));
+        }
+        courtDTO.setImages(images);
+        return courtDTO;
+    }
+
+
 }

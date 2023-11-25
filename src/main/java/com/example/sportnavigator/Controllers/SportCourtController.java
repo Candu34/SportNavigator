@@ -1,13 +1,16 @@
 package com.example.sportnavigator.Controllers;
 
 
+import com.example.sportnavigator.DTO.SportCourtDTO;
 import com.example.sportnavigator.DTO.UserDTO;
-import com.example.sportnavigator.Models.User;
-import com.example.sportnavigator.Service.UserService;
+import com.example.sportnavigator.Models.SportCourt;
+import com.example.sportnavigator.Service.SportCourtService;
 import com.example.sportnavigator.mapper.MapStructMapper;
+import com.example.sportnavigator.util.exceptions.CourtNotCreatedException;
 import com.example.sportnavigator.util.exceptions.UserNotCreatedException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,31 +23,25 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/users")
-public class UserController {
-
-    private final UserService userService;
+@RequestMapping("/api/courts")
+public class SportCourtController {
+    private final SportCourtService sportCourtService;
     private final MapStructMapper mapStructMapper;
 
-    @GetMapping()
-    public List<UserDTO> getAllUsers() {
-        List<User> users = userService.getAllUsers();
-        List<UserDTO> usersDTO = new ArrayList<>();
-        for (User user : users) {
-            usersDTO.add(mapStructMapper.userToUserDTO(user));
-        }
-        return usersDTO;
-    }
 
-    @GetMapping("/{id}")
-    @ResponseBody
-    public UserDTO getOne(@PathVariable("id") long id) {
-        return mapStructMapper.userToUserDTO(userService.getUserById(id));
+    @GetMapping()
+    public List<SportCourtDTO> findAll() {
+        List<SportCourt> courts = sportCourtService.findAll();
+        List<SportCourtDTO> courtsDTO = new ArrayList<>();
+        for (SportCourt court : courts) {
+            courtsDTO.add(mapStructMapper.SportCourtToSportCourtDTO(court));
+        }
+        return courtsDTO;
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<HttpStatus> save(@RequestBody @Valid UserDTO userDTO,
+    public ResponseEntity<HttpStatus> save(@RequestBody @Valid SportCourtDTO sportCourtDTO,
                                            BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             StringBuilder errorMsg = new StringBuilder();
@@ -58,12 +55,16 @@ public class UserController {
                         .append(";");
             }
 
-            throw new UserNotCreatedException(errorMsg.toString());
+            throw new CourtNotCreatedException(errorMsg.toString());
         }
+        SportCourt sportCourt = mapStructMapper.SportCourtDTOToSportCourt(sportCourtDTO);
+        sportCourtService.save(sportCourt);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
-        User user = mapStructMapper.UserDTOToUser(userDTO);
-        userService.saveUser(user);
-        return ResponseEntity.ok(HttpStatus.OK);
+    @GetMapping("/{id}")
+    public SportCourtDTO findOne(@PathVariable long id){
+       return mapStructMapper.SportCourtToSportCourtDTO(sportCourtService.fidById(id));
     }
 
 
