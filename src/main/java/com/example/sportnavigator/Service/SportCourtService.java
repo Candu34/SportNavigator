@@ -4,10 +4,12 @@ package com.example.sportnavigator.Service;
 import com.example.sportnavigator.Models.SportCourt;
 import com.example.sportnavigator.Models.User;
 import com.example.sportnavigator.repository.SportCourtRepository;
+import com.example.sportnavigator.util.exceptions.SportCourtNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,8 +26,14 @@ public class SportCourtService {
     }
 
     public SportCourt fidById(Long id) {
-        return sportCourtRepository.findById(id).orElse(null); //TODO Exception handler
+        Optional<SportCourt> sportCourt = sportCourtRepository.findById(id);
+        if (sportCourt.isEmpty()){
+            throw new SportCourtNotFoundException("Court was not found");
+        }
+
+        return sportCourt.get();
     }
+    
     public List<SportCourt> findByUser(User user){
         return sportCourtRepository.findByUser(user);
     }

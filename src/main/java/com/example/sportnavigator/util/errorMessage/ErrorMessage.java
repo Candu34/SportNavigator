@@ -1,4 +1,4 @@
-package com.example.sportnavigator.util.exceptions;
+package com.example.sportnavigator.util.errorMessage;
 
 
 public record ErrorMessage(String msg, long timestamp){}

@@ -3,6 +3,8 @@ package com.example.sportnavigator.Service;
 
 import com.example.sportnavigator.Models.User;
 import com.example.sportnavigator.repository.UserRepository;
+import com.example.sportnavigator.util.exceptions.UserExistingEmailException;
+import com.example.sportnavigator.util.exceptions.UserNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,27 +21,45 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    @Transactional
-    public long saveUser(User user){
-        return userRepository.save(user).getId();
+    @Transactional()
+    public void saveUser(User user) {
+        if (userRepository.findByEmail(user.getEmail()) != null)
+            throw new UserExistingEmailException("User with this message allready exist");
+        else {
+            userRepository.save(user);
+        }
     }
 
     public User getUserById(long id){
-        return userRepository.findById(id).get();
+        Optional<User> user = userRepository.findById(id);
+        if(user.isEmpty()){
+            throw new UserNotFoundException("User not found");
+        }
+        else {
+            return user.get();
+        }
     }
 
     public List<User> getAllUsers(){
         return userRepository.findAll();
     }
 
-    @Transactional
+    @Transactional()
     public void deleteUser(long id){
         userRepository.deleteById(id);
     }
 
-    @Transactional
+    @Transactional()
     public void updateUser(User updatedUser, long id){
-        updatedUser.setId(userRepository.findById(id).get().getId());
+        Optional<User> user = userRepository.findById(id);
+        if(user.isEmpty()){
+            throw new UserNotFoundException("User not found");
+        }
+        else {
+            User userToUpdate = user.get();
+            updatedUser.setId(userToUpdate.getId());
+            userRepository.save(updatedUser);
+        }
     }
 
 }
