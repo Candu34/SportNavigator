@@ -49,17 +49,7 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    @Transactional()
-    public void updateUser(User updatedUser, long id){
-        Optional<User> user = userRepository.findById(id);
-        if(user.isEmpty()){
-            throw new UserNotFoundException("User not found");
-        }
-        else {
-            User userToUpdate = user.get();
-            updatedUser.setId(userToUpdate.getId());
-            userRepository.save(updatedUser);
-        }
-    }
+
+
 
 }

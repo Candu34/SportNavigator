@@ -13,13 +13,13 @@ public class ExceptionHandler {
     @org.springframework.web.bind.annotation.ExceptionHandler(value = UserNotCreatedException.class)
     public ResponseEntity<ErrorMessage> handleUserNotCreatedException(UserNotCreatedException e){
         ErrorMessage errorMessage = new ErrorMessage(e.getMessage(), System.currentTimeMillis());
-        return new ResponseEntity<>(errorMessage, HttpStatus.CONFLICT);
+        return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
     }
 
     @org.springframework.web.bind.annotation.ExceptionHandler(value = CourtNotCreatedException.class)
     public ResponseEntity<ErrorMessage> handleCourtNotCreatedException(CourtNotCreatedException e){
         ErrorMessage errorMessage = new ErrorMessage(e.getMessage(), System.currentTimeMillis());
-        return new ResponseEntity<>(errorMessage, HttpStatus.CONFLICT);
+        return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
     }
 
     @org.springframework.web.bind.annotation.ExceptionHandler(value = SportCourtNotFoundException.class)
@@ -39,6 +39,27 @@ public class ExceptionHandler {
         ErrorMessage errorMessage = new ErrorMessage(e.getMessage(), System.currentTimeMillis());
         return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
     }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(value = ReviewNotFoundException.class)
+    public ResponseEntity<ErrorMessage> handleUserNotFoundException(ReviewNotFoundException e){
+        ErrorMessage errorMessage = new ErrorMessage(e.getMessage(), System.currentTimeMillis());
+        return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
+    }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(value = ReviewNotCeatedException.class)
+    public ResponseEntity<ErrorMessage> handleUserNotFoundException(ReviewNotCeatedException e){
+        ErrorMessage errorMessage = new ErrorMessage(e.getMessage(), System.currentTimeMillis());
+        return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+    }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(value = UserExistingEmailException.class)
+    public ResponseEntity<ErrorMessage> handleUserNotFoundException(UserExistingEmailException e){
+        ErrorMessage errorMessage = new ErrorMessage(e.getMessage(), System.currentTimeMillis());
+        return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+    }
+
+    
+
 
 
 

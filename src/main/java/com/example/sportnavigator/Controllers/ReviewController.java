@@ -8,6 +8,7 @@ import com.example.sportnavigator.Models.SportCourt;
 import com.example.sportnavigator.Service.ReviewService;
 import com.example.sportnavigator.mapper.MapStructMapper;
 import com.example.sportnavigator.util.exceptions.CourtNotCreatedException;
+import com.example.sportnavigator.util.exceptions.ReviewNotCeatedException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -60,12 +61,22 @@ public class ReviewController {
                         .append(";");
             }
 
-            throw new CourtNotCreatedException(errorMsg.toString());
+            throw new ReviewNotCeatedException(errorMsg.toString());
         }
         Review review = mapStructMapper.ReviewDTOToReview(reviewDTO);
         reviewService.save(review);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> delete(@PathVariable Long id) {
+
+        reviewService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+
 
 
 

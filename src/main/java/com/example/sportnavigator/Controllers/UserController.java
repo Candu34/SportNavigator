@@ -6,6 +6,7 @@ import com.example.sportnavigator.Models.User;
 import com.example.sportnavigator.Service.UserService;
 import com.example.sportnavigator.mapper.MapStructMapper;
 import com.example.sportnavigator.util.exceptions.UserNotCreatedException;
+import com.example.sportnavigator.util.exceptions.UserNotUpdatedException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -65,6 +66,7 @@ public class UserController {
         userService.saveUser(user);
         return ResponseEntity.ok(HttpStatus.OK);
     }
+
 
 
 }
