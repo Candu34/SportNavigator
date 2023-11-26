@@ -33,7 +33,7 @@ public class SportCourtService {
 
         return sportCourt.get();
     }
-    
+
     public List<SportCourt> findByUser(User user){
         return sportCourtRepository.findByUser(user);
     }

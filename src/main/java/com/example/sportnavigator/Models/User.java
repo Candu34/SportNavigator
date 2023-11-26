@@ -62,6 +62,11 @@ public class User {
     private LocalDateTime dateOfCreated;
 
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
+            mappedBy = "user")
+    private List<Review> reviews;
+
+
 
     @PrePersist
     public void init(){

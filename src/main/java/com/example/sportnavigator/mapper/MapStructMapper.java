@@ -2,13 +2,12 @@ package com.example.sportnavigator.mapper;
 
 
 import com.example.sportnavigator.DTO.EncodedImage;
+import com.example.sportnavigator.DTO.ReviewDTO;
 import com.example.sportnavigator.DTO.SportCourtDTO;
 import com.example.sportnavigator.DTO.UserDTO;
-import com.example.sportnavigator.Models.CourtImage;
+import com.example.sportnavigator.Models.*;
 import com.example.sportnavigator.Models.Enums.CourtType;
-import com.example.sportnavigator.Models.SportCourt;
-import com.example.sportnavigator.Models.User;
-import com.example.sportnavigator.Models.UserImage;
+import com.example.sportnavigator.Service.SportCourtService;
 import com.example.sportnavigator.Service.UserService;
 import com.example.sportnavigator.util.exceptions.UserNotCreatedException;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +23,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class MapStructMapper {
     private final UserService userService;
+    private final SportCourtService sportCourtService;
 
 
     public UserDTO userToUserDTO(User user) {
@@ -114,6 +114,26 @@ public class MapStructMapper {
         }
         courtDTO.setImages(images);
         return courtDTO;
+    }
+
+    public Review ReviewDTOToReview(ReviewDTO reviewDTO){
+        Review review = new Review();
+        review.setDescription(reviewDTO.getDescription());
+        review.setRating(reviewDTO.getRating());
+        review.setUser(userService.getUserById(reviewDTO.getUserID()));
+        review.setSportCourt(sportCourtService.fidById(reviewDTO.getSportCourtID()));
+
+        return review;
+    }
+
+    public ReviewDTO ReviewToReviewDTO(Review review){
+        ReviewDTO reviewDTO = new ReviewDTO();
+        reviewDTO.setDescription(review.getDescription());
+        reviewDTO.setRating(review.getRating());
+        reviewDTO.setSportCourtID(review.getSportCourt().getId());
+        reviewDTO.setUserID(review.getUser().getId());
+
+        return reviewDTO;
     }
 
 

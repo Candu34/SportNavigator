@@ -49,6 +49,10 @@ public class SportCourt {
     @Enumerated(EnumType.STRING)
     private Set<CourtType> courtTypes = new HashSet<>();
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
+            mappedBy = "sportCourt")
+    private List<Review> reviews;
+
 
     @PrePersist
     private void init() {
