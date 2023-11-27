@@ -7,6 +7,7 @@ import com.example.sportnavigator.DTO.SportCourtDTO;
 import com.example.sportnavigator.DTO.UserDTO;
 import com.example.sportnavigator.Models.*;
 import com.example.sportnavigator.Models.Enums.CourtType;
+import com.example.sportnavigator.Models.Enums.Sport;
 import com.example.sportnavigator.Service.SportCourtService;
 import com.example.sportnavigator.Service.UserService;
 import com.example.sportnavigator.util.exceptions.UserNotCreatedException;
@@ -87,14 +88,18 @@ public class MapStructMapper {
 
     public SportCourt SportCourtDTOToSportCourt(SportCourtDTO courtDTO) {
         Set<CourtType> courtType = new HashSet<>();
+        Set<Sport> sport = new HashSet<>();
         Coordinate coordinate = new Coordinate();
 
         courtType.add(CourtType.valueOf(courtDTO.getCourtType())); //TODO exception handler
+        sport.add(Sport.valueOf(courtDTO.getSport()));
         SportCourt court = new SportCourt();
+
         court.setName(courtDTO.getName());
         court.setDescription(courtDTO.getDescription());
         court.setCourtTypes(courtType);
         court.setUser(userService.getUserById(courtDTO.getUserID()));
+        court.setSport(sport);
 
         coordinate.setLongitude(courtDTO.getLongitude());
         coordinate.setLatitude(courtDTO.getLatitude());
@@ -116,6 +121,7 @@ public class MapStructMapper {
         courtDTO.setUserID(sportCourt.getUser().getId());
         courtDTO.setLatitude(sportCourt.getCoordinates().getLatitude());
         courtDTO.setLongitude(sportCourt.getCoordinates().getLongitude());
+        courtDTO.setSport(sportCourt.getSport().toString());
         List<EncodedImage> images = new ArrayList<>();
         for(CourtImage image: sportCourt.getImages()){
             images.add(ImageToEncodedImage(image));

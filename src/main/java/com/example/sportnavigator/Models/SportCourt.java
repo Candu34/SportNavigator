@@ -3,6 +3,7 @@ package com.example.sportnavigator.Models;
 
 import com.example.sportnavigator.DTO.EncodedImage;
 import com.example.sportnavigator.Models.Enums.CourtType;
+import com.example.sportnavigator.Models.Enums.Sport;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -45,7 +46,7 @@ public class SportCourt {
 
     @ElementCollection(targetClass = CourtType.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "court_type",
-            joinColumns = @JoinColumn(name = "user_id"))
+            joinColumns = @JoinColumn(name = "court_id"))
     @Enumerated(EnumType.STRING)
     private Set<CourtType> courtTypes = new HashSet<>();
 
@@ -57,6 +58,14 @@ public class SportCourt {
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     private Coordinate coordinates;
+
+    @ElementCollection(targetClass = Sport.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "sports",
+            joinColumns = @JoinColumn(name = "court_id"))
+    @Enumerated(EnumType.STRING)
+    private Set<Sport> sport = new HashSet<>();
+
+
 
 
     @PrePersist

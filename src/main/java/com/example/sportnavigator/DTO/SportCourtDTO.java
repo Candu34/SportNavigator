@@ -47,4 +47,7 @@ public class SportCourtDTO {
     @JsonProperty
     private double longitude;
 
+    @JsonProperty
+    private String sport;
+
 }
