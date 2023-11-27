@@ -2,6 +2,8 @@ package com.example.sportnavigator.DTO;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -34,5 +36,15 @@ public class SportCourtDTO {
     @JsonProperty
     @NotNull
     private Long userID;
+
+    @JsonProperty
+    @Min(0)
+    @Max(90)
+    private double latitude;
+
+    @Min(0)
+    @Max(90)
+    @JsonProperty
+    private double longitude;
 
 }

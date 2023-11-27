@@ -25,22 +25,22 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/reviews")
 public class ReviewController {
-   private final ReviewService reviewService;
-   private final MapStructMapper mapStructMapper;
+    private final ReviewService reviewService;
+    private final MapStructMapper mapStructMapper;
 
 
     @GetMapping()
-    public List<ReviewDTO> findAll(){
+    public List<ReviewDTO> findAll() {
         List<Review> reviews = reviewService.findAll();
         List<ReviewDTO> reviewDTOS = new ArrayList<>();
-        for (Review review: reviews){
+        for (Review review : reviews) {
             reviewDTOS.add(mapStructMapper.ReviewToReviewDTO(review));
         }
         return reviewDTOS;
     }
 
     @GetMapping("/{id}")
-    public ReviewDTO findOne(@PathVariable Long id){
+    public ReviewDTO findOne(@PathVariable Long id) {
         Review review = reviewService.findById(id);
         return mapStructMapper.ReviewToReviewDTO(review);
     }
@@ -74,13 +74,6 @@ public class ReviewController {
         reviewService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-
-
-
-
-
-
 
 
 }

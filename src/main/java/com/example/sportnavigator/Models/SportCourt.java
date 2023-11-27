@@ -53,6 +53,11 @@ public class SportCourt {
             mappedBy = "sportCourt")
     private List<Review> reviews;
 
+    @OneToOne(mappedBy = "sportCourt",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private Coordinate coordinates;
+
 
     @PrePersist
     private void init() {

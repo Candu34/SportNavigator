@@ -87,6 +87,7 @@ public class MapStructMapper {
 
     public SportCourt SportCourtDTOToSportCourt(SportCourtDTO courtDTO) {
         Set<CourtType> courtType = new HashSet<>();
+        Coordinate coordinate = new Coordinate();
 
         courtType.add(CourtType.valueOf(courtDTO.getCourtType())); //TODO exception handler
         SportCourt court = new SportCourt();
@@ -94,6 +95,11 @@ public class MapStructMapper {
         court.setDescription(courtDTO.getDescription());
         court.setCourtTypes(courtType);
         court.setUser(userService.getUserById(courtDTO.getUserID()));
+
+        coordinate.setLongitude(courtDTO.getLongitude());
+        coordinate.setLatitude(courtDTO.getLatitude());
+        coordinate.setSportCourt(court);
+        court.setCoordinates(coordinate);
         List<CourtImage> images = new ArrayList<>();
         for (EncodedImage image : courtDTO.getImages()) {
             images.add(EncodedImageToCourtImage(image, court));
@@ -108,6 +114,8 @@ public class MapStructMapper {
         courtDTO.setDescription(sportCourt.getDescription());
         courtDTO.setCourtType(sportCourt.getCourtTypes().toString());
         courtDTO.setUserID(sportCourt.getUser().getId());
+        courtDTO.setLatitude(sportCourt.getCoordinates().getLatitude());
+        courtDTO.setLongitude(sportCourt.getCoordinates().getLongitude());
         List<EncodedImage> images = new ArrayList<>();
         for(CourtImage image: sportCourt.getImages()){
             images.add(ImageToEncodedImage(image));
