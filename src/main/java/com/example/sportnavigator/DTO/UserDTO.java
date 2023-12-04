@@ -14,6 +14,9 @@ import lombok.NoArgsConstructor;
 @Data
 public class UserDTO {
 
+    @JsonProperty
+    private Long id;
+
     @Email(message = "wrong email format")
     @JsonProperty("email")
     @NotNull

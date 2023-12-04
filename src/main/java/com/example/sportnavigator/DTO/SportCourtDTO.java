@@ -18,6 +18,9 @@ import java.util.List;
 public class SportCourtDTO {
 
     @JsonProperty
+    private Long id;
+
+    @JsonProperty
     @NotNull
     @Size(min = 2, max = 50)
     private String name;

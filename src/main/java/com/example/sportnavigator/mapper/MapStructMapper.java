@@ -29,7 +29,9 @@ public class MapStructMapper {
     public UserDTO userToUserDTO(User user) {
         if (user == null) return null;
 
+
         UserDTO userDTO = new UserDTO();
+        userDTO.setId(user.getId());
         userDTO.setEmail(user.getEmail());
         userDTO.setName(user.getName());
         userDTO.setPassword(user.getPassword());
@@ -112,6 +114,7 @@ public class MapStructMapper {
 
     public SportCourtDTO SportCourtToSportCourtDTO(SportCourt sportCourt) {
         SportCourtDTO courtDTO = new SportCourtDTO();
+        courtDTO.setId(sportCourt.getId());
         courtDTO.setName(sportCourt.getName());
         courtDTO.setDescription(sportCourt.getDescription());
         courtDTO.setCourtType(sportCourt.getCourtTypes().toString());
