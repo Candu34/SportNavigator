@@ -64,6 +64,12 @@ public class ExceptionHandler {
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
     }
 
+    @org.springframework.web.bind.annotation.ExceptionHandler(value = UnexpectedDateTime.class)
+    public ResponseEntity<ErrorMessage> handleUserNotFoundException(UnexpectedDateTime e) {
+        ErrorMessage errorMessage = new ErrorMessage(e.getMessage(), System.currentTimeMillis());
+        return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+    }
+
 
 
 
