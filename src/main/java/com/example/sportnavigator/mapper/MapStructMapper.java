@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -147,10 +149,12 @@ public class MapStructMapper {
 
     public Event EnventDTOToEvent(EventDTO eventDTO){
         Event event = new Event();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
         SportCourt sportCourt = sportCourtService.fidById(eventDTO.getSportCourtId());
         event.setName(eventDTO.getName());
         event.setDescription(eventDTO.getDescription());
         event.setSportCourt(sportCourt);
+        event.setEvent_time(LocalDateTime.parse(eventDTO.getEvent_time(), formatter));
 
         return event;
     }
@@ -160,6 +164,7 @@ public class MapStructMapper {
         eventDTO.setName(event.getName());
         eventDTO.setDescription(event.getDescription());
         eventDTO.setSportCourtId(event.getSportCourt().getId());
+        eventDTO.setEvent_time(event.getEvent_time().toString());
 
         return eventDTO;
     }

@@ -18,4 +18,7 @@ public class EventDTO {
 
     @JsonProperty
     private Long sportCourtId;
+
+    @JsonProperty
+    private String event_time;
 }
