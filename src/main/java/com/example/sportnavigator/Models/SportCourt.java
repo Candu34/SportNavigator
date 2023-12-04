@@ -65,6 +65,9 @@ public class SportCourt {
     @Enumerated(EnumType.STRING)
     private Set<Sport> sport = new HashSet<>();
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
+            mappedBy = "sportCourt")
+    private List<Event> events;
 
 
 

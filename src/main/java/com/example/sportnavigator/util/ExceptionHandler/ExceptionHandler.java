@@ -58,5 +58,13 @@ public class ExceptionHandler {
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
     }
 
+    @org.springframework.web.bind.annotation.ExceptionHandler(value = EventNotCreatedEcxeption.class)
+    public ResponseEntity<ErrorMessage> handleUserNotFoundException(EventNotCreatedEcxeption e) {
+        ErrorMessage errorMessage = new ErrorMessage(e.getMessage(), System.currentTimeMillis());
+        return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+    }
+
+
+
 
 }

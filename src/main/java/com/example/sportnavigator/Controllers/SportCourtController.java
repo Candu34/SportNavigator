@@ -41,18 +41,14 @@ public class SportCourtController {
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<HttpStatus> save(@RequestBody @Valid SportCourtDTO sportCourtDTO,
-                                           BindingResult bindingResult) {
+    public ResponseEntity<HttpStatus> save(@RequestBody @Valid SportCourtDTO sportCourtDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             StringBuilder errorMsg = new StringBuilder();
 
             List<FieldError> errors = bindingResult.getFieldErrors();
 
             for (FieldError error : errors) {
-                errorMsg.append(error.getField())
-                        .append(" - ")
-                        .append(error.getDefaultMessage())
-                        .append(";");
+                errorMsg.append(error.getField()).append(" - ").append(error.getDefaultMessage()).append(";");
             }
 
             throw new CourtNotCreatedException(errorMsg.toString());
@@ -63,8 +59,8 @@ public class SportCourtController {
     }
 
     @GetMapping("/{id}")
-    public SportCourtDTO findOne(@PathVariable long id){
-       return mapStructMapper.SportCourtToSportCourtDTO(sportCourtService.fidById(id));
+    public SportCourtDTO findOne(@PathVariable long id) {
+        return mapStructMapper.SportCourtToSportCourtDTO(sportCourtService.fidById(id));
     }
 
 

@@ -28,7 +28,6 @@ public class ReviewController {
     private final ReviewService reviewService;
     private final MapStructMapper mapStructMapper;
 
-
     @GetMapping()
     public List<ReviewDTO> findAll() {
         List<Review> reviews = reviewService.findAll();

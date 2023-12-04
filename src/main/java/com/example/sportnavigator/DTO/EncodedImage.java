@@ -1,8 +1,6 @@
 package com.example.sportnavigator.DTO;
 
 
-import com.example.sportnavigator.Models.SportCourt;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

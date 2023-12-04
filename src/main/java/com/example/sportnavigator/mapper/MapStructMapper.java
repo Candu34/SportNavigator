@@ -1,10 +1,7 @@
 package com.example.sportnavigator.mapper;
 
 
-import com.example.sportnavigator.DTO.EncodedImage;
-import com.example.sportnavigator.DTO.ReviewDTO;
-import com.example.sportnavigator.DTO.SportCourtDTO;
-import com.example.sportnavigator.DTO.UserDTO;
+import com.example.sportnavigator.DTO.*;
 import com.example.sportnavigator.Models.*;
 import com.example.sportnavigator.Models.Enums.CourtType;
 import com.example.sportnavigator.Models.Enums.Sport;
@@ -28,8 +25,7 @@ public class MapStructMapper {
 
 
     public UserDTO userToUserDTO(User user) {
-        if (user == null)
-            return null;
+        if (user == null) return null;
 
         UserDTO userDTO = new UserDTO();
         userDTO.setEmail(user.getEmail());
@@ -42,8 +38,7 @@ public class MapStructMapper {
     }
 
     public User UserDTOToUser(UserDTO userDTO) {
-        if (userDTO == null)
-            throw new UserNotCreatedException("Error to create user");
+        if (userDTO == null) throw new UserNotCreatedException("Error to create user");
 
         User user = new User();
         user.setName(userDTO.getName());
@@ -113,7 +108,7 @@ public class MapStructMapper {
         return court;
     }
 
-    public SportCourtDTO SportCourtToSportCourtDTO(SportCourt sportCourt){
+    public SportCourtDTO SportCourtToSportCourtDTO(SportCourt sportCourt) {
         SportCourtDTO courtDTO = new SportCourtDTO();
         courtDTO.setName(sportCourt.getName());
         courtDTO.setDescription(sportCourt.getDescription());
@@ -123,14 +118,14 @@ public class MapStructMapper {
         courtDTO.setLongitude(sportCourt.getCoordinates().getLongitude());
         courtDTO.setSport(sportCourt.getSport().toString());
         List<EncodedImage> images = new ArrayList<>();
-        for(CourtImage image: sportCourt.getImages()){
+        for (CourtImage image : sportCourt.getImages()) {
             images.add(ImageToEncodedImage(image));
         }
         courtDTO.setImages(images);
         return courtDTO;
     }
 
-    public Review ReviewDTOToReview(ReviewDTO reviewDTO){
+    public Review ReviewDTOToReview(ReviewDTO reviewDTO) {
         Review review = new Review();
         review.setDescription(reviewDTO.getDescription());
         review.setRating(reviewDTO.getRating());
@@ -140,7 +135,7 @@ public class MapStructMapper {
         return review;
     }
 
-    public ReviewDTO ReviewToReviewDTO(Review review){
+    public ReviewDTO ReviewToReviewDTO(Review review) {
         ReviewDTO reviewDTO = new ReviewDTO();
         reviewDTO.setDescription(review.getDescription());
         reviewDTO.setRating(review.getRating());
@@ -148,6 +143,25 @@ public class MapStructMapper {
         reviewDTO.setUserID(review.getUser().getId());
 
         return reviewDTO;
+    }
+
+    public Event EnventDTOToEvent(EventDTO eventDTO){
+        Event event = new Event();
+        SportCourt sportCourt = sportCourtService.fidById(eventDTO.getSportCourtId());
+        event.setName(eventDTO.getName());
+        event.setDescription(eventDTO.getDescription());
+        event.setSportCourt(sportCourt);
+
+        return event;
+    }
+
+    public EventDTO EventToEventDTO(Event event){
+        EventDTO eventDTO = new EventDTO();
+        eventDTO.setName(event.getName());
+        eventDTO.setDescription(event.getDescription());
+        eventDTO.setSportCourtId(event.getSportCourt().getId());
+
+        return eventDTO;
     }
 
 
