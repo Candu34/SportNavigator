@@ -22,15 +22,15 @@ public class SportCourtDTO {
 
     @JsonProperty
     @NotNull
-    @Size(min = 2, max = 50)
+    @Size(min = 2, max = 50, message = "name should be between 2 and 50 characters")
     private String name;
 
     @JsonProperty
-    @NotNull
+    @NotNull(message = "description should not be empty")
     private String description;
 
     @JsonProperty
-    @NotNull
+    @NotNull(message = "court type should not be empty")
     private String courtType;
 
     @JsonProperty
@@ -41,16 +41,17 @@ public class SportCourtDTO {
     private Long userID;
 
     @JsonProperty
-    @Min(0)
-    @Max(90)
+    @Min(value = 0 ,  message = "wrong coordinate")
+    @Max(value = 90, message = "wrong coordinate")
     private double latitude;
 
-    @Min(0)
-    @Max(90)
+    @Min(value = 0, message = "rating should be between 1 and 5")
+    @Max(value = 90, message = "rating should be between 1 and 5")
     @JsonProperty
     private double longitude;
 
     @JsonProperty
+    @NotNull
     private String sport;
 
 }
