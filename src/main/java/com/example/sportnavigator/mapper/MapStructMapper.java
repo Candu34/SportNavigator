@@ -164,6 +164,7 @@ public class MapStructMapper {
 
     public EventDTO EventToEventDTO(Event event){
         EventDTO eventDTO = new EventDTO();
+        eventDTO.setId(event.getId());
         eventDTO.setName(event.getName());
         eventDTO.setDescription(event.getDescription());
         eventDTO.setSportCourtId(event.getSportCourt().getId());

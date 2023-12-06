@@ -69,6 +69,13 @@ public class EventController {
         return  eventDTOList;
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> delete(@PathVariable Long id){
+
+        eventService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
 
 

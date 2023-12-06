@@ -70,7 +70,17 @@ public class ExceptionHandler {
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
     }
 
+    @org.springframework.web.bind.annotation.ExceptionHandler(value = EventNotFoundException.class)
+    public ResponseEntity<ErrorMessage> handleEventNotFoundException(EventNotFoundException e) {
+        ErrorMessage errorMessage = new ErrorMessage(e.getMessage(), System.currentTimeMillis());
+        return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+    }
 
+    @org.springframework.web.bind.annotation.ExceptionHandler(value = EventNotDeletedException.class)
+    public ResponseEntity<ErrorMessage> handleEventNotDeletedException(EventNotDeletedException e) {
+        ErrorMessage errorMessage = new ErrorMessage(e.getMessage(), System.currentTimeMillis());
+        return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+    }
 
 
 }

@@ -3,6 +3,8 @@ package com.example.sportnavigator.Service;
 import com.example.sportnavigator.Models.Event;
 import com.example.sportnavigator.Models.SportCourt;
 import com.example.sportnavigator.repository.EventRespository;
+import com.example.sportnavigator.util.exceptions.EventNotDeletedException;
+import com.example.sportnavigator.util.exceptions.EventNotFoundException;
 import com.example.sportnavigator.util.exceptions.UnexpectedDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -30,7 +33,11 @@ public class EventService {
     }
 
     public Event findById(Long id) {
-        return eventRespository.findById(id).orElse(null); // TODO Exception handler
+        Optional<Event> eventOptional = eventRespository.findById(id);
+        if(eventOptional.isEmpty())
+            throw new EventNotFoundException("Event does not exists or it expired");
+
+        return eventOptional.get();
     }
 
     @Transactional
@@ -45,6 +52,16 @@ public class EventService {
 
     public List<Event> findAll(){
         return eventRespository.findAll();
+    }
+
+    @Transactional
+    public void delete(Long id){
+        eventRespository.deleteById(id);
+        Optional<Event> event = eventRespository.findById(id);
+        if(event.isPresent())
+            throw new EventNotDeletedException("Event was not deleted");
+
+
     }
 
 }

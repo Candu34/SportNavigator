@@ -13,6 +13,9 @@ import lombok.NoArgsConstructor;
 public class EventDTO {
 
     @JsonProperty
+    private Long id;
+
+    @JsonProperty
     @Size(min = 3, max = 60, message = "name should be between 3 and 60 characters")
     @NotNull
     private String name;
